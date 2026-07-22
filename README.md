@@ -1,4 +1,4 @@
-# Job Application Agent
+# CrewAI Job Application Agent
 **Developed by Piyush**
 
 CrewAI agent that generates a complete job application package: cover letter, tailored resume bullets, interview questions, and salary range.
