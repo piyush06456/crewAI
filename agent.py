@@ -15,7 +15,7 @@ import os
 
 from crewai import Agent, Crew, Process, Task
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 load_dotenv()
 
@@ -51,7 +51,7 @@ Education: BS Computer Science, UC Berkeley
 
 
 def run_job_application_crew(job_desc: str, candidate_profile: str) -> str:
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.4)
+    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.4)
 
     analyst = Agent(
         role="Job Requirements Analyst",
