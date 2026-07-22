@@ -13,9 +13,8 @@ Usage:
 import argparse
 import os
 
-from crewai import Agent, Crew, Process, Task
+from crewai import Agent, Crew, Process, Task, LLM
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
 
 load_dotenv()
 
@@ -51,13 +50,18 @@ Education: BS Computer Science, UC Berkeley
 
 
 def run_job_application_crew(job_desc: str, candidate_profile: str) -> str:
-    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.4)
+    # Use CrewAI's native LLM wrapper (which uses LiteLLM under the hood)
+    my_llm = LLM(
+        model="gemini/gemini-1.5-flash",
+        api_key=os.environ.get("GOOGLE_API_KEY"),
+        temperature=0.4
+    )
 
     analyst = Agent(
         role="Job Requirements Analyst",
         goal="Analyze the job description and identify key requirements, values, and culture signals",
         backstory="Ex-hiring manager at FAANG with 10 years recruiting experience. Expert at decoding job descriptions.",
-        llm=llm,
+        llm=my_llm,
         verbose=False,
     )
 
@@ -65,7 +69,7 @@ def run_job_application_crew(job_desc: str, candidate_profile: str) -> str:
         role="Career Coach and Application Writer",
         goal="Create tailored application materials that maximize interview chances",
         backstory="Career coach who has helped 500+ candidates land roles at top tech companies.",
-        llm=llm,
+        llm=my_llm,
         verbose=False,
     )
 
