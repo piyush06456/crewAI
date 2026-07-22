@@ -52,7 +52,7 @@ Education: BS Computer Science, UC Berkeley
 def run_job_application_crew(job_desc: str, candidate_profile: str) -> str:
     # Use CrewAI's native LLM wrapper (which uses LiteLLM under the hood)
     my_llm = LLM(
-        model="gemini/gemini-1.5-flash-latest",
+        model="gemini/gemini-pro",
         api_key=os.environ.get("GOOGLE_API_KEY"),
         temperature=0.4
     )
