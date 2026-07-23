@@ -78,7 +78,7 @@ function App() {
     <div className="app-shell">
       <nav className="topbar">
         <a className="brand" href="/" aria-label="CREWAI home">
-          <span className="brand-mark">A</span>
+          <span className="brand-mark" aria-hidden="true">C</span>
           <span>CREWAI</span>
         </a>
         <div className="topbar-meta">
