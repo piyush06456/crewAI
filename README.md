@@ -4,7 +4,7 @@
 CrewAI agent that generates a complete job application package: cover letter, tailored resume bullets, interview questions, and salary range.
 
 **Framework**: CrewAI  
-**LLM**: GPT-4o-mini  
+**LLM**: OpenRouter `openai/gpt-oss-20b:free`
 
 ## Setup
 

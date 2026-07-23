@@ -28,17 +28,21 @@ def generate_application(request: ApplicationRequest):
     if not request.job_desc or not request.candidate_profile:
         raise HTTPException(status_code=400, detail="Job description and candidate profile are required.")
     
-    # Ensure API key is present in environment, or it will fail in agent.py
-    if not os.environ.get("GEMINI_API_KEY"):
-        raise HTTPException(status_code=500, detail="Server misconfiguration: GEMINI_API_KEY is not set.")
+    # Ensure the OpenRouter key is present before starting a paid/remote model call.
+    if not os.environ.get("OPENROUTER_API_KEY"):
+        raise HTTPException(status_code=500, detail="Server misconfiguration: OPENROUTER_API_KEY is not set.")
         
     try:
         # Run the crew AI
         result = run_job_application_crew(request.job_desc, request.candidate_profile)
         return ApplicationResponse(result=result)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        error_text = str(e)
+        if "401" in error_text or "403" in error_text or "unauthorized" in error_text.lower():
+            detail = "OpenRouter authentication failed. Check that OPENROUTER_API_KEY in .env is active and has credits or free-model access."
+            raise HTTPException(status_code=502, detail=detail) from e
+        raise HTTPException(status_code=502, detail=f"AI generation failed: {error_text}") from e
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("api:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

@@ -52,9 +52,10 @@ Education: BS Computer Science, UC Berkeley
 def run_job_application_crew(job_desc: str, candidate_profile: str) -> str:
     # Use CrewAI's native LLM wrapper (which uses LiteLLM under the hood)
     my_llm = LLM(
-        model="gemini/gemini-flash-latest",
-        api_key=os.environ.get("GEMINI_API_KEY"),
-        temperature=0.4
+        model="openrouter/openai/gpt-oss-20b:free",
+        api_key=os.environ.get("OPENROUTER_API_KEY"),
+        base_url="https://openrouter.ai/api/v1",
+        temperature=0.4,
     )
 
     analyst = Agent(
